@@ -6,7 +6,7 @@ class Ticker:
         self.tick_interval = tick_interval_s
         self.counter = 0
         self.last_tick_time = None
-        self.block_flags = {}
+        self.__block_flags = {}
 
     def start(self):
         self.last_tick_time = time.time()
@@ -19,10 +19,14 @@ class Ticker:
             self.last_tick_time = now
 
     def counter_comp(self, mod):
+        try:
+            self.__block_flags[mod]
+        except KeyError:
+            self.__block_flags[mod] = None
         if self.counter % mod == 0:
-            if not self.block_flags[mod]:
-                self.block_flags[mod] = True
+            if not self.__block_flags[mod]:
+                self.__block_flags[mod] = True
                 return True
-        if self.counter % mod != 0 and self.block_flags[mod]:
-            self.block_flags[mod] = False
+        if self.counter % mod != 0 and self.__block_flags[mod]:
+            self.__block_flags[mod] = False
         return False
