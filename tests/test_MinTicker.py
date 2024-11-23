@@ -1,4 +1,4 @@
-from pytick.ticker import MinTicker
+from tickpy.ticker import MinTicker
 import time
 
 

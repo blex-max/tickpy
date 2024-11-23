@@ -1,4 +1,4 @@
-from pytick.ticker import IncTicker
+from tickpy.ticker import IncTicker
 import time
 
 
