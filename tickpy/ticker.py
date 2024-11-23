@@ -9,7 +9,10 @@ class MinTicker:
         self.start_time = perf_counter()
 
     def update(self):
+        prev = self.counter
         self.counter = int((perf_counter() - self.start_time) / self.tick_interval)
+        return True if self.counter != prev else False
+
 
     def mod(self,
             mod: int):
@@ -27,10 +30,12 @@ class Ticker:
         self.__block_flags = {}
 
     def update(self):
+        prev = self.counter
         self.counter = int((perf_counter() - self.start_time) / self.tick_interval)
         for k in self.__block_flags:
             if self.counter % k != 0 and self.__block_flags[k]:
                 self.__block_flags[k] = False
+        return True if self.counter != prev else False
 
     def mod(self,
             mod: int):
@@ -74,6 +79,7 @@ class IncTicker:
 
     # should this catch up, or only increment once?
     def update(self):
+        prev = self.counter
         now = perf_counter()
         elapsed_t = now - self.last_tick_time  # type: ignore
         if elapsed_t >= self.tick_interval:
@@ -82,6 +88,7 @@ class IncTicker:
         for k in self.__block_flags:
             if self.counter % k != 0 and self.__block_flags[k]:
                 self.__block_flags[k] = False
+        return True if self.counter != prev else False
 
     def mod(self,
             mod: int):
