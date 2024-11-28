@@ -14,4 +14,18 @@ class Timer:
     def elapsed(self, period_len: float, period_start: float | None = None) -> bool:
         return True if self.since((period_start if period_start else self.start_time))>= period_len else False
 
+
+class StaticTimer:
+    def __init__(self):
+        self.start_time: float = perf_counter()
+        self.now = self.start_time
+
+    def since(self, past_t: float | None = None) -> float:
+        return self.now - (past_t if past_t else self.start_time)
+
+    def elapsed(self, period_len: float, period_start: float | None = None) -> bool:
+        return True if self.since((period_start if period_start else self.start_time))>= period_len else False
+
+    def update(self):
+        self.now = perf_counter()
     
