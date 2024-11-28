@@ -37,6 +37,12 @@ class Ticker:
                 self.__block_flags[k] = False
         return True if self.counter != prev else False
 
+    def since(self, period_start: int) -> int:
+        return self.counter - period_start
+
+    def elapsed(self, period_len: int, period_start: int) -> bool:
+        return True if self.since(period_start) >= period_len else False
+
     def mod(self,
             mod: int):
         if self.counter % mod == 0:
