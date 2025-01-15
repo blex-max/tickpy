@@ -1,16 +1,15 @@
-[tool.poetry]
+[project]
 name = "tickpy"
 version = "0.3.0"
-description = ""
-authors = ["blex-max"]
+description = "Timer classes with a focus on periodic timing in while loops"
+authors = [ { name = "Alex Byrne" } ]
+license = { text = "GPL-3.0-or-later"}
 readme = "README.md"
+requires-python = ">=3.13"
 
-[tool.poetry.dependencies]
-python = "^3.13"
+[project.optional-dependencies]
+pytest = [ "pytest>=8.3.3" ]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^8.3.3"
+[project.urls]
+homepage = "https://github.com/blex-max/tickpy"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
