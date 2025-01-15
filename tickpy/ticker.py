@@ -46,7 +46,9 @@ class __TickerIntermediary(Ticker):
              chk: bool = True,
              blk: bool = True,
              unblk: bool = True):
-        # may implement a "cmod since" functionality
+        """
+        *c*omplex mod - check whether a given period has elapsed given the current value of .counter, with support for avoiding returning True again if the given period is checked twice again counter remains at the same value.
+        """
         try:
             self.__block_flags[mod]
         except KeyError:
