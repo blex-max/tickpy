@@ -39,7 +39,7 @@ class __TickerIntermediary(Ticker):
     def __init__(self,
                  tick_interval_s: float):
         super().__init__(tick_interval_s)
-        self.__block_flags = {}
+        self._block_flags = {}
 
     def cmod(self,
              mod: int,
@@ -50,23 +50,28 @@ class __TickerIntermediary(Ticker):
         *c*omplex mod - check whether a given period has elapsed given the current value of .counter, with support for avoiding returning True again if the given period is checked twice again counter remains at the same value.
         """
         try:
-            self.__block_flags[mod]
+            self._block_flags[mod]
         except KeyError:
-            self.__block_flags[mod] = None
+            self._block_flags[mod] = None
         if self.counter % mod == 0:
             # falls through to final return False
-            if chk and not self.__block_flags[mod]:
+            if chk and not self._block_flags[mod]:
                 if blk:
-                    self.__block_flags[mod] = True
+                    self._block_flags[mod] = True
                 return True
             elif not chk:
-                if blk and not self.__block_flags[mod]:
-                    self.__block_flags[mod] = True
+                if blk and not self._block_flags[mod]:
+                    self._block_flags[mod] = True
                 return True
         # could tie yourself in knots here, fragile
-        if unblk and self.__block_flags[mod] and self.counter % mod != 0:
-            self.__block_flags[mod] = False
+        if unblk and self._block_flags[mod] and self.counter % mod != 0:
+            self._block_flags[mod] = False
         return False
+
+    def _update_flags(self):
+        for k in self._block_flags:
+            if self.counter % k != 0 and self._block_flags[k]:
+                self._block_flags[k] = False
 
 
 class ExtTicker(__TickerIntermediary):
@@ -79,9 +84,7 @@ class ExtTicker(__TickerIntermediary):
 
     def update(self):
         ticked = super().update()
-        for k in self.__block_flags:
-            if self.counter % k != 0 and self.__block_flags[k]:
-                self.__block_flags[k] = False
+        self._update_flags()
         return ticked
 
 
@@ -101,8 +104,6 @@ class IncTicker(__TickerIntermediary):
         if elapsed_t >= self.tick_interval:
             self.counter += 1
             self.last_tick_time = now
-        for k in self.__block_flags:
-            if self.counter % k != 0 and self.__block_flags[k]:
-                self.__block_flags[k] = False
+        self._update_flags()
         return True if self.counter != prev else False
 

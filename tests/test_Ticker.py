@@ -3,13 +3,13 @@ import time
 
 
 def test_Ticker():
-    t = Ticker(0.2)
+    t = Ticker(0.02)
     assert t.counter == 0
-    time.sleep(0.5)
+    time.sleep(0.05)
     t.update()
     assert t.counter == 2
     assert t.mod(2) == True
-    time.sleep(0.5)
+    time.sleep(0.05)
     t.update()
     assert t.counter == 5
     assert t.mod(2) == False
