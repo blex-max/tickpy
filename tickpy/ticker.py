@@ -2,13 +2,7 @@ from time import perf_counter
 from typing import Protocol
 
 
-class __TickerProtocol(Protocol):
-    tick_interval: float
-    counter: int
-    start_time: float
-
-
-class __TickerParent(__TickerProtocol):
+class __TickerParent():
     def __init__(self,
                  tick_interval_s: float):
         self.tick_interval: float = tick_interval_s
@@ -71,14 +65,17 @@ class FreeTicker(__TickerParent):
         return True if self.counter != prev else False
 
 
-class __ModProtocol(__TickerProtocol):
+class __ExtProtocol(Protocol):
+    tick_interval: float
+    counter: int
+    start_time: float
     _block_flags: dict[int, bool | None]
 
     def mod(self, mod: int) -> bool:
         ...
 
 
-class __TickerMixin(__ModProtocol):
+class __TickerMixin(__ExtProtocol):
     """
     Private class to share functionality between child classes
     """
