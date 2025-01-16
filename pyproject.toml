@@ -1,6 +1,6 @@
 [project]
 name = "tickpy"
-version = "0.3.0"
+version = "1.0.0"
 description = "Timer classes with a focus on periodic timing in while loops"
 authors = [ { name = "Alex Byrne" } ]
 license = { text = "GPL-3.0-or-later"}
