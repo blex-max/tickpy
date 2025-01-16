@@ -9,6 +9,7 @@ requires-python = ">=3.13"
 
 [project.optional-dependencies]
 pytest = [ "pytest>=8.3.3" ]
+pytest-cov = [ "pytest-cov>=0.6.0" ]
 
 [project.urls]
 homepage = "https://github.com/blex-max/tickpy"
