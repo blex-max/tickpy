@@ -10,7 +10,7 @@ class __TickerParent():
         self.start_time: float = perf_counter()
 
     def mod(self,
-            mod: int):
+            mod: int) -> bool:
         """
         Has a given period completed a cycle at the current value of .counter? mod as in 'modulo', i.e. .counter % mod
         """
@@ -32,7 +32,7 @@ class __TickerParent():
         return True if self.since(period_start) >= period_len else False
 
 
-class Ticker(__TickerParent):
+class IncTicker(__TickerParent):
     """
     Basic "ticker" timer, i.e. will increment a counter tracking a given period.
     Each call to .udpate() will only ever increment the counter by 1.
@@ -42,7 +42,7 @@ class Ticker(__TickerParent):
         super().__init__(tick_interval_s)
         self.last_tick_time: float = self.start_time
 
-    def update(self):
+    def update(self) -> bool:
         prev = self.counter
         now = perf_counter()
         elapsed_t = now - self.last_tick_time  # type: ignore
@@ -64,7 +64,7 @@ class FreeTicker(__TickerParent):
         super().__init__(tick_interval_s)
     
 
-    def update(self):
+    def update(self) -> bool:
         prev = self.counter
         self.counter = int((perf_counter() - self.start_time) / self.tick_interval)
         return True if self.counter != prev else False
@@ -84,14 +84,14 @@ class __TickerMixin(__ExtProtocol):
     """
     Private class to share functionality between child classes
     """
-    def _shared_init(self):
+    def _shared_init(self) -> None:
         """
         Private function to add to init of classes implementing .cmod()
         """
         self._block_flags = {}
 
     def cmod(self,
-             mod: int):
+             mod: int) -> bool:
         """
         *C*omplex mod - check whether a given period x has elapsed given the current value of .counter, without returning True again if .cmod(x) is called more than once while counter remains at the same value.
         """
@@ -106,7 +106,7 @@ class __TickerMixin(__ExtProtocol):
                 return True
         return False
 
-    def _update_flags(self):
+    def _update_flags(self) -> None:
         """
         Private function to update blocking flags to be called each time the counter updates
         """
@@ -124,13 +124,13 @@ class ExtFreeTicker(FreeTicker, __TickerMixin):
         super().__init__(tick_interval_s)
         self._shared_init()
 
-    def update(self):
+    def update(self) -> bool:
         ticked = super().update()
         self._update_flags()
         return ticked
 
 
-class ExtTicker(Ticker, __TickerMixin):
+class ExtIncTicker(IncTicker, __TickerMixin):
     """
     Ticker with extended functionality - see .cmod().
     """
@@ -139,7 +139,7 @@ class ExtTicker(Ticker, __TickerMixin):
         super().__init__(tick_interval_s)
         self._shared_init()
 
-    def update(self):
+    def update(self) -> bool:
         ticked = super().update()
         self._update_flags()
         return ticked

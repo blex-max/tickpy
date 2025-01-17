@@ -1,9 +1,9 @@
-from tickpy.ticker import ExtTicker, ExtFreeTicker
+from tickpy.ticker import ExtIncTicker, ExtFreeTicker
 import time
 
 
 def test_ExtTicker_basic():
-    t = ExtTicker(0.02)
+    t = ExtIncTicker(0.02)
     assert t.counter == 0
     time.sleep(0.01)
     assert t.update() == False
