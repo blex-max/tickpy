@@ -35,6 +35,7 @@ class __TickerParent():
 class Ticker(__TickerParent):
     """
     Basic "ticker" timer, i.e. will increment a counter tracking a given period.
+    Each call to .udpate() will only ever increment the counter by 1.
     """
     def __init__(self,
                  tick_interval_s: float):
@@ -54,6 +55,10 @@ class Ticker(__TickerParent):
 
 
 class FreeTicker(__TickerParent):
+    """
+    Basic "ticker" timer, i.e. will increment a counter tracking a given period.
+    Each call to .udpate() will increment the counter by as many periods have passed since the last call to .update().
+    """
     def __init__(self,
                  tick_interval_s: float):
         super().__init__(tick_interval_s)
@@ -112,7 +117,7 @@ class __TickerMixin(__ExtProtocol):
 
 class ExtFreeTicker(FreeTicker, __TickerMixin):
     """
-    Ticker with extended functionality - internally handled checks for a period having elapsed which avoid returning True more than once in a while loop.
+    FreeTicker with extended functionality - see .cmod().
     """
     def __init__(self,
                  tick_interval_s: float):
@@ -127,7 +132,7 @@ class ExtFreeTicker(FreeTicker, __TickerMixin):
 
 class ExtTicker(Ticker, __TickerMixin):
     """
-    Ticker with identical functionality to ExtTicker, excepting that when, upon calling update(), the tick interval has elapsed since the last call to update(), the ticker will *only* increment .counter by one, regardless of how much time has actually elapsed.
+    Ticker with extended functionality - see .cmod().
     """
     def __init__(self,
                  tick_interval_s: float):
