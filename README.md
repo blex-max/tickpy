@@ -18,11 +18,19 @@ I developed this module to use when working with finite state machines, or in ot
 
 ## Installation
 
-The latest version is available via PyPi for standard installation.
+The latest version is available via PyPi for standard installation, e.g.
+```
+pip install tickpy
+```
+or however is appropriate for your needs.
 
 From source or a github release:
 ```
 poetry install
+```
+or
+```
+pip install .
 ```
 
 ## Testing
