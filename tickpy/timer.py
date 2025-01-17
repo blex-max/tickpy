@@ -20,10 +20,10 @@ class StaticTimer(__TimerParent):
     """
     def __init__(self):
         self.start_time: float = perf_counter()
-        self.now = self.start_time  # type: ignore
+        self.now = self.start_time
 
     def update(self):
-        self.now = perf_counter()  # type: ignore
+        self.now = perf_counter()
 
 
 class Timer(__TimerParent):
