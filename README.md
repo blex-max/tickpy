@@ -22,7 +22,7 @@ The latest version is available via PyPi for standard installation, e.g.
 ```
 pip install tickpy
 ```
-or however is appropriate for your needs.
+or however is most appropriate for your needs.
 
 From source or a github release:
 ```
