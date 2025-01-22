@@ -2,9 +2,9 @@
 
 Convenient timing classes with a focus on periodic timing in while loops.
 
-The bulk of this module is given to `Ticker` classes - counters which increment tracking a given period. Much like a counter you might find on low-resource chip, when working on embedded applications. By example, if you set up a ticker with a period of 10ms, and in each iteration of your main loop you call .update() on the ticker, each time 10ms has elapsed the ticker will increment it's counter by 1. This is combined with various conveniences, such as functions for checking 'how long since' or 'has this period elapsed' and so on.
+The bulk of this module is given to `Ticker` classes - counters which increment tracking a given period. Much like a counter you might find on low-resource chip, when working on embedded applications. By example, if you set up a ticker with a period of 10ms, and in each iteration of your main loop you call `.update()` on the ticker, each time 10ms has elapsed the ticker will increment it's counter by 1. This is combined with various conveniences, such as functions for checking 'how long since' or 'has this period elapsed' and so on.
 
-There are two flavours of `Ticker`, each with a slightly different sense of time. `FreeTicker` will increment it's counter by as many periods have passed since last updated - most accurately approximating an independent timer on a chip. `IncTicker` will only ever increment it's counter by 1 for each call to .update() - this is convenient if you don't want to bother worrying about what happens if the timer skips. Each flavour also has an extended child class, `Ext...Ticker` - this class adds some slightly more complicated state tracking of periods checked, to avoid reporting that a period has elapsed more than once for a given loop.
+There are two flavours of `Ticker`, each with a slightly different sense of time. `FreeTicker` will increment it's counter by as many periods have passed since last updated - most accurately approximating an independent timer on a chip. `IncTicker` will only ever increment it's counter by 1 for each call to `.update()` - this is convenient if you don't want to bother worrying about what happens if the timer skips. Each flavour also has an extended child class, `Ext...Ticker` - this class adds some slightly more complicated state tracking of periods checked, to avoid reporting that a period has elapsed more than once for a given loop.
 
 Also provided are some very simple `Timer` classes, which just track time without any period internal sense of period. These are `StaticTimer`, where `now` is fixed to the last time the timer was updated, and `Timer`, where `now` is always right now. These come with a couple of convience functions each, though these are less extensive than those present for the Tickers.
 
@@ -42,7 +42,7 @@ A test suite with approximately complete coverage is available for this repo. It
 Things I can/will implement at request or my need:
   - ensure compatibility with some older versions of python3
   - extensions to period checking functions for both timer and ticker classes
-    - extend ticker .cmod() to optionally take a `period_start` parameter - effectively decoupling period tracking from the start time when desired, and returning False if .counter has not yet reached period start.
+    - extend ticker `.cmod()` to optionally take a `period_start` parameter - effectively decoupling period tracking from the start time when desired, and returning False if `.counter` has not yet reached period start.
   - optionally autoupdate when calling cmod and so on. Almost certainly ill-advised for the applications I envisage using this module for however.
 
 ## Licence
