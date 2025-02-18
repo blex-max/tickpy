@@ -2,7 +2,7 @@ from time import perf_counter
 from typing import Protocol
 
 
-class __TickerParent():
+class _TickerParent():
     def __init__(self,
                  tick_interval_s: float):
         self.tick_interval: float = tick_interval_s
@@ -32,7 +32,7 @@ class __TickerParent():
         return True if self.since(period_start) >= period_len else False
 
 
-class IncTicker(__TickerParent):
+class IncTicker(_TickerParent):
     """
     Basic "ticker" timer, i.e. will increment a counter tracking a given period.
     Each call to .udpate() will only ever increment the counter by 1.
@@ -54,7 +54,7 @@ class IncTicker(__TickerParent):
         return True if self.counter != prev else False
 
 
-class FreeTicker(__TickerParent):
+class FreeTicker(_TickerParent):
     """
     Basic "ticker" timer, i.e. will increment a counter tracking a given period.
     Each call to .udpate() will increment the counter by as many periods have passed since the last call to .update().
@@ -70,7 +70,7 @@ class FreeTicker(__TickerParent):
         return True if self.counter != prev else False
 
 
-class __ExtProtocol(Protocol):
+class _ExtProtocol(Protocol):
     tick_interval: float
     counter: int
     start_time: float
@@ -80,7 +80,7 @@ class __ExtProtocol(Protocol):
         ...
 
 
-class __TickerMixin(__ExtProtocol):
+class _TickerMixin(_ExtProtocol):
     """
     Private class to share functionality between child classes
     """
@@ -115,7 +115,7 @@ class __TickerMixin(__ExtProtocol):
                 self._block_flags[k] = False
 
 
-class ExtFreeTicker(FreeTicker, __TickerMixin):
+class ExtFreeTicker(FreeTicker, _TickerMixin):
     """
     FreeTicker with extended functionality - see .cmod().
     """
@@ -130,7 +130,7 @@ class ExtFreeTicker(FreeTicker, __TickerMixin):
         return ticked
 
 
-class ExtIncTicker(IncTicker, __TickerMixin):
+class ExtIncTicker(IncTicker, _TickerMixin):
     """
     Ticker with extended functionality - see .cmod().
     """
