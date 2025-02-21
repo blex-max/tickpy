@@ -21,6 +21,7 @@ class EventQueue:
     
     def schedule(self,
                  event: Event):
+        breakpoint()
         heapq.heappush(self.events, event)
     
     def process_events(self):
