@@ -8,8 +8,8 @@ from tickpy.ticker import _TickerParent
 @dataclass(order=True)
 class Event:
     run_at: int
-    call: Callable[..., None]
-    post: Callable[..., None] | None = None
+    call: Callable[..., None] = field(compare=False)
+    post: Callable[..., None] | None = field(default=None, compare=False)
 
 
 # if it becomes necessary, add key for ordering arguments with the same execution time (-1 if it doesn't matter)
@@ -21,7 +21,7 @@ class EventQueue:
     
     def schedule(self,
                  event: Event):
-        breakpoint()
+        # breakpoint()
         heapq.heappush(self.events, event)
     
     def process_events(self):
